@@ -22,7 +22,6 @@ function [Actions,Rewards, weights]=TrackProblemPlay(totalTime,data)
 		Actions(index) = MyBandit.play();
 		r = simulateReward(Actions(index), seed, data);
 		Rewards(index) = r;
-        weights(:, index) = MyBandit.w;
 		MyBandit.getReward(r);
     end
     
