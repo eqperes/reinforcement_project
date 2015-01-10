@@ -1,7 +1,6 @@
-function [Actions,Rewards]=EXP4play(totalTime,data)
+function [Actions,Rewards]=EXP4play(n,K,eta,Beta,Seq, advices, data)
 
-    [K, ~] = size(data.color);
-    n = 3;
+    [K, n] = size(data.color)
 
     seed_number = 405;
     seed.size = data.size(seed_number,:);
@@ -10,16 +9,14 @@ function [Actions,Rewards]=EXP4play(totalTime,data)
     
     advices = generate_advices(seed);
     
-	my_exp4 = EXP4(K, advices);
+	my_exp4 = EXP4(eta,Beta,K, advices);
 	my_exp4.init();
-	Actions = zeros(1, totalTime);
-	Rewards = zeros(1, totalTime);
-	for index = 1:totalTime
+	Actions = zeros(size(Seq));
+	Rewards = zeros(size(Seq));
+	for index = 1:size(Seq)
 		Actions(index) = my_exp4.play();
 		r = simulateReward(Actions(index), seed, data);
 		Rewards(index) = r;
 		my_exp4.getReward(r);
-    end
-    
-    just = 1;
+	end
 end

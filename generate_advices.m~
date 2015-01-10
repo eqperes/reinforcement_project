@@ -1,0 +1,21 @@
+function [ advices ] = generate_advices(seed)
+    
+
+    s = tdfread('data.tsv');
+    [k, ~] = size(s.color);
+    advices = zeros(3, k);
+    
+    %size advice expert
+    size_test = strcmp(s.size, repmat({seed.size}, [k, 1]));
+    advices(1, :) = (1/sum(size_test))*size_test';
+    
+    %color advice expert
+    color_test = strcmp(s.color, repmat({seed.color}, [k, 1]));
+    advices(2, :) = (1/sum(color_test))*color_test';
+    
+    %value advice expert
+    value_test = abs(s.value - seed.value * ones(k, 1));
+    advices(3, :) = (1/sum(value_test))*value_test';
+
+end
+

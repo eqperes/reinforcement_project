@@ -13,9 +13,11 @@ classdef EXP4<handle
     
     methods
         
-        function self = EXP4(nbActions,advices)
+        function self = EXP4(eta,Beta,nbActions,advices)
             self.nbActions = nbActions;
-            self.Gamma = 0.999;
+            self.eta = eta;
+            self.Beta = Beta;
+            self.Gamma = 4*nbActions*Beta/(3+Beta);
             self.advices = advices;
         end
         
@@ -30,7 +32,7 @@ classdef EXP4<handle
             W = sum(self.w);
             [N, K] = size(self.advices);
             matrixW = repmat(self.w, 1, K);
-            p = ((1-Gamma)/W)*sum(matrixW.*advices, 1) + Gamma/K;
+             p = ((1-Gamma)/W)*sum(matrixW.*advices, 1) + Gamma/K;
             action = simu(p);
             self.lastAction = action;
         end
