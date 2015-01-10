@@ -1,4 +1,4 @@
-function [Actions,Rewards]=EXP4play(totalTime,data)
+function [Actions,Rewards, finalW]=TrackProblemPlay(totalTime,data)
 
     [K, ~] = size(data.color);
     n = 3;
@@ -10,16 +10,17 @@ function [Actions,Rewards]=EXP4play(totalTime,data)
     
     advices = generate_advices(seed);
     
-	my_exp4 = EXP4(K, advices);
-	my_exp4.init();
+% 	MyBandit = EXP4(K, advices);
+    MyBandit = DAB(K, advices);
+	MyBandit.init();
 	Actions = zeros(1, totalTime);
 	Rewards = zeros(1, totalTime);
 	for index = 1:totalTime
-		Actions(index) = my_exp4.play();
+		Actions(index) = MyBandit.play();
 		r = simulateReward(Actions(index), seed, data);
 		Rewards(index) = r;
-		my_exp4.getReward(r);
+		MyBandit.getReward(r);
     end
     
-    just = 1;
+    finalW = MyBandit.w;
 end

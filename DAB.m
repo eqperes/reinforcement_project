@@ -1,4 +1,4 @@
-classdef EXP4<handle
+classdef DAB<handle
     % EXP 3 strategy for one player
     
     properties
@@ -11,7 +11,7 @@ classdef EXP4<handle
     
     methods
         
-        function self = EXP4(nbActions,advices)
+        function self = DAB(nbActions,advices)
             self.nbActions = nbActions;
             self.Gamma = 0.999;
             self.advices = advices;
@@ -27,9 +27,9 @@ classdef EXP4<handle
             Gamma = self.Gamma;
             W = sum(self.w);
             [N, K] = size(self.advices);
-            matrixW = repmat(self.w, 1, K);
-            p = ((1-Gamma)/W)*sum(matrixW.*advices, 1) + Gamma/K;
-            action = simu(p);
+            p = ((1-Gamma)/W)*self.w + Gamma/N;
+            arm = simu(p);
+            action = simu(advices(arm,:));
             self.lastAction = action;
         end
         
@@ -38,11 +38,11 @@ classdef EXP4<handle
             Gamma = self.Gamma;
             W = sum(self.w);
             [N, K] = size(self.advices);
-            matrixW = repmat(self.w, 1, K);
-            p = ((1-Gamma)/W)*sum(matrixW.*advices, 1) + Gamma/K;
+            p = ((1-Gamma)/W)*self.w + Gamma/N;
             
-            x_hat = zeros(size(p)); 
-            x_hat(self.lastAction) = r/p(self.lastAction);
+            x_hat = zeros( size(advices(1,:))); 
+            bigP = p'*advices(:, self.lastAction);
+            x_hat(self.lastAction) = r/bigP;
             
             y_hat = advices*(x_hat'); 
             y_hat = y_hat';
