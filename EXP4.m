@@ -13,7 +13,7 @@ classdef EXP4<handle
         
         function self = EXP4(nbActions,advices)
             self.nbActions = nbActions;
-            self.Gamma = 0.999;
+            self.Gamma = 0.1;
             self.advices = advices;
         end
         

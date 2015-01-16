@@ -1,4 +1,4 @@
-function [Actions,Rewards, weights]=TrackProblemPlay(totalTime,data)
+function [Actions,Rewards, weights]=TrackProblemPlay(totalTime,data, algo)
 
     [K, ~] = size(data.color);
     n = 3;
@@ -10,8 +10,12 @@ function [Actions,Rewards, weights]=TrackProblemPlay(totalTime,data)
     
     advices = generate_advices(seed);
     
-% 	MyBandit = EXP4(K, advices);
-    MyBandit = DAB(K, advices);
+    if (strcmp(algo, 'exp4'))
+        MyBandit = EXP4(K, advices);
+    else
+        MyBandit = DAB(K, advices);
+    end;
+    
 	MyBandit.init();
     
 	Actions = zeros(1, totalTime);

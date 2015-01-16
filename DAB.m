@@ -13,7 +13,7 @@ classdef DAB<handle
         
         function self = DAB(nbActions,advices)
             self.nbActions = nbActions;
-            self.Gamma = 0.999;
+            self.Gamma = 0.1;
             self.advices = advices;
         end
         
@@ -27,6 +27,7 @@ classdef DAB<handle
             Gamma = self.Gamma;
             W = sum(self.w);
             [N, K] = size(self.advices);
+            self.w;
             p = ((1-Gamma)/W)*self.w + Gamma/N;
             arm = simu(p);
             action = simu(advices(arm,:));
